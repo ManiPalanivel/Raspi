@@ -1,32 +1,4 @@
-'''#!/usr/bin/python
-import picamera
-#from picamera.array import PiRGBArray
-import time
-import base64
-import paho.mqtt.client as mqtt
 
-def convertImageToBase64():
-    with open(currentTime, "rb") as image_file:
-        encoded = base64.b64encode(image_file.read())
-        return encoded
-
-
-#camera = picamera.PiCamera()
-#rawCapture = PiRGBArray(camera)
-currentTime = time.strftime("%Y%m%d-%H%M%S")+'.jpg'
-#camera.capture(currentTime)
-#camera.capture(rawCapture,format="bmr")
-#image=rawCapture.array
-#camera.hflip = True
-#camera.vflip = True
-#temp = convertImageToBase64()
-time.sleep(5)
-client = mqtt.Client()
-client.connect("m12.cloudmqtt.com",11252,60)
-client.publish("sampleChannel","hello")
-client.disconnect()
-#print "hello World"
-'''
 import time
 from pubnub.enums import PNStatusCategory
 from pubnub.pnconfiguration import PNConfiguration

@@ -1,4 +1,5 @@
 import time
+import RPi.GPIO as GPIO
 from pubnub.callbacks import SubscribeCallback
 from pubnub.enums import PNStatusCategory
 from pubnub.pnconfiguration import PNConfiguration
@@ -10,6 +11,10 @@ pubnubConf.subscribe_key = 'sub-c-1aa69146-117c-11e7-9faf-0619f8945a4f'
 pubnubConf.publish_key = 'pub-c-a2c67d8e-1b26-4e00-878b-8b74a6ef3393'
 pubnubConf.ssl = False
 pubnub = PubNub(pubnubConf)
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(16, GPIO.OUT)
+GPIO.setwarnings(False)
 
 def my_publish_callback(result, status):
     # Check whether request successfully completed or not
@@ -47,10 +52,14 @@ class MySubscribeCallback(SubscribeCallback):
  
     def message(self, pubnub, message):
         print(message.message)
+        if message.message == "1":
+             GPIO.output(16, GPIO.HIGH)
+             time.sleep(5)
+             #GPIO.output(8, GPIO.LOW)
+             GPIO.output(16, GPIO.LOW)
         pass  # Handle new message stored in message.message
 
 
 
 pubnub.add_listener(MySubscribeCallback())
-pubnub.subscribe().channels('awesomeChannel').execute()
-
+pubnub.subscribe().channels('entry-exit').execute()
